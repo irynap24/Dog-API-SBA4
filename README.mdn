@@ -1,0 +1,13 @@
+// please refresh the preview because it glitches really badly and makes it look like the code is not working
+
+This project is a web application that allows users to view and favourite images of different cat breeds. 
+It uses a combination of HTML, CSS, JavaScript, and Axios for API interactions, with Bootstrap for styling and a carousel component.
+
+Features
+Breed Selection: Choose a cat breed from a dropdown menu to view a carousel of images for that breed.
+Carousel: Display images in a responsive Bootstrap carousel with navigation controls.
+Favourites: Click the heart icon on an image to toggle its status as a favourite.
+Clicking on the heart(to favorite) will automatically take you to the favorites list to show the image you favorited.
+If you would like to select another image from the same breed, you have to refresh the page.
+The carousel is limited to show only 3 favorited images, so you have to unfavorite some from the list.
+I added one favorited image in the favorites category, feel free to add 2 more favorites so you can verify it works.
