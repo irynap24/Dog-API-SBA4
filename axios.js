@@ -2,8 +2,7 @@ import axios from "axios";
 
 // Set default base URL and headers for Axios
 axios.defaults.baseURL = "https://api.thedogapi.com/v1/";
-axios.defaults.headers.common["x-api-key"] =
-  "live_rVj2pMaHsJtmWA93AAhGZi9h3JmR5eqe7E8srROIImIvS0UkJj23V3oy1b38qnQs"; // Replace with your actual API key
+axios.defaults.headers.common["x-api-key"] = "live_vrEwq0Gggg38Ji0OPKDy2Dlwi4WSx4lIyGXCkSsTv4KbWqBxqpL6QdkGfQ3zuC59"; // Replace with your actual API key
 
 // Function to show the progress bar
 function showProgressBar() {
@@ -63,7 +62,7 @@ axios.interceptors.response.use(
 // Function to get breeds from the API
 export async function getBreeds() {
   try {
-    const response = await axios.get("https://api.thedogapi.com/v1/breeds");
+    const response = await axios.get("breeds"); // Updated to "breeds"
     return response.data;
   } catch (error) {
     console.error("Error fetching breeds:", error);
@@ -91,7 +90,7 @@ export async function getBreedImages(breedId) {
 // Function to get information about a specific breed from the API
 export async function getBreedInfo(breedId) {
   try {
-    const response = await axios.get(`breeds/${breedId}`);
+    const response = await axios.get(`breeds/${breedId}`); // Ensure endpoint is correct
     return response.data;
   } catch (error) {
     console.error("Error fetching breed information:", error);
@@ -121,7 +120,7 @@ export async function toggleFavorite(imageId) {
 // Function to get the list of favorited images
 export async function getFavorites() {
   try {
-    const response = await axios.get("favourites");
+    const response = await axios.get("favourites"); // Ensure endpoint is correct
     return response.data;
   } catch (error) {
     console.error("Error fetching favorites:", error);

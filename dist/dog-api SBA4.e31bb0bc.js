@@ -12259,7 +12259,7 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // Set default base URL and headers for Axios
 _axios.default.defaults.baseURL = "https://api.thedogapi.com/v1/";
-_axios.default.defaults.headers.common["x-api-key"] = "live_rVj2pMaHsJtmWA93AAhGZi9h3JmR5eqe7E8srROIImIvS0UkJj23V3oy1b38qnQs"; // Replace with your actual API key
+_axios.default.defaults.headers.common["x-api-key"] = "live_vrEwq0Gggg38Ji0OPKDy2Dlwi4WSx4lIyGXCkSsTv4KbWqBxqpL6QdkGfQ3zuC59"; // Replace with your actual API key
 
 // Function to show the progress bar
 function showProgressBar() {
@@ -12324,7 +12324,7 @@ function _getBreeds() {
         case 0:
           _context.prev = 0;
           _context.next = 3;
-          return _axios.default.get("https://api.thedogapi.com/v1/breeds");
+          return _axios.default.get("breeds");
         case 3:
           response = _context.sent;
           return _context.abrupt("return", response.data);
@@ -12603,7 +12603,7 @@ function _selectNewBreed() {
 
           // Fetch and display breed information
           // <p><strong>About:</strong> ${breedInfo.description || "No description available"}</p>
-          infoDump.innerHTML = "\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h3>".concat(breedInfo.name || "Unknown Breed", "</h3>\n\n          <p><strong>Temperament:</strong> ").concat(breedInfo.temperament || "No temperament information available", "</p>\n          <p><strong>Weight & Height:</strong> ").concat(breedInfo.weight.imperial, "lbs, ").concat(breedInfo.height.imperial, " inches tall</p>\n          <p><strong>Origin:</strong> ").concat(breedInfo.origin || "No origin information available", "</p>\n          <p><strong>Life Span:</strong> ").concat(breedInfo.life_span || "No life span information available", "</p>\n          <p><strong>Bred For:</strong> ").concat(breedInfo.bred_for || "No info available", "</p >\n        </div >\n      </div >\n      ");
+          infoDump.innerHTML = "\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h3>".concat(breedInfo.name || "Unknown Breed", "</h3>\n\n          <p><strong>Temperament:</strong> ").concat(breedInfo.temperament || "No temperament information available", "</p>\n          <p><strong>Weight & Height:</strong> ").concat(breedInfo.weight.imperial, "lbs, ").concat(breedInfo.height.imperial, "</p>\n          <p><strong>Origin:</strong> ").concat(breedInfo.origin || "No origin information available", "</p>\n          <p><strong>Life Span:</strong> ").concat(breedInfo.life_span || "No life span information available", "</p>\n          <p><strong>Bred For:</strong> ").concat(breedInfo.bred_for || "No info available", "</p >\n        </div >\n      </div >\n      ");
           _context3.next = 22;
           break;
         case 19:
@@ -12632,6 +12632,7 @@ function _updateFavorites() {
           return Api.getFavorites();
         case 3:
           favorites = _context5.sent;
+          console.log('Favorites response:', favorites); // Log the response
           carouselInner = document.getElementById("carouselInner");
           carouselInner.innerHTML = "";
           favorites.forEach(function (favorite) {
@@ -12639,7 +12640,7 @@ function _updateFavorites() {
             var img = template.querySelector("img");
             img.src = favorite.image.url || "https://via.placeholder.com/400"; // Use placeholder if URL is missing
 
-            console.log("Favorite Image URL: ".concat(favorite.image.url, " ")); // Log the favorite image URL to the console
+            console.log("Favorite Image URL: ".concat(favorite.image.url)); // Log the favorite image URL to the console
 
             var favButton = template.querySelector(".favourite-button");
             favButton.setAttribute("data-img-id", favorite.image.id);
@@ -12660,17 +12661,17 @@ function _updateFavorites() {
             })));
             carouselInner.appendChild(template);
           });
-          _context5.next = 12;
+          _context5.next = 13;
           break;
-        case 9:
-          _context5.prev = 9;
+        case 10:
+          _context5.prev = 10;
           _context5.t0 = _context5["catch"](0);
           console.error("Error fetching favorites:", _context5.t0);
-        case 12:
+        case 13:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[0, 9]]);
+    }, _callee5, null, [[0, 10]]);
   }));
   return _updateFavorites.apply(this, arguments);
 }
