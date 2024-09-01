@@ -27,8 +27,11 @@ async function selectNewBreed() {
   if (!breedId) return; // Exit if no breed is selected
 
   try {
-    const images = await Api.getBreedImages(breedId);
-    const breedInfo = await Api.getBreedInfo(breedId);
+    // Fetch images and breed information in parallel
+    const [images, breedInfo] = await Promise.all([
+      Api.getBreedImages(breedId),
+      Api.getBreedInfo(breedId),
+    ]);
 
     // Clear existing carousel items and info dump
     const carouselInner = document.getElementById("carouselInner");
@@ -65,14 +68,20 @@ async function selectNewBreed() {
     carousel.cycle();
 
     // Fetch and display breed information
+    // <p><strong>About:</strong> ${breedInfo.description || "No description available"}</p>
     infoDump.innerHTML = `
       <div class="row">
         <div class="col-md-12">
-          <h3>${breedInfo.name}</h3>
-          <p><strong>About:</strong> ${breedInfo.description}</p>
-        </div>
-      </div>
-    `;
+          <h3>${breedInfo.name || "Unknown Breed"}</h3>
+
+          <p><strong>Temperament:</strong> ${breedInfo.temperament || "No temperament information available"}</p>
+          <p><strong>Weight & Height:</strong> ${breedInfo.weight.imperial}lbs, ${breedInfo.height.imperial} inches tall</p>
+          <p><strong>Origin:</strong> ${breedInfo.origin || "No origin information available"}</p>
+          <p><strong>Life Span:</strong> ${breedInfo.life_span || "No life span information available"}</p>
+          <p><strong>Bred For:</strong> ${breedInfo.bred_for || "No info available"}</p >
+        </div >
+      </div >
+      `;
   } catch (error) {
     console.error("Error fetching breed details:", error);
   }
@@ -92,7 +101,7 @@ async function updateFavorites() {
       const img = template.querySelector("img");
       img.src = favorite.image.url || "https://via.placeholder.com/400"; // Use placeholder if URL is missing
 
-      console.log(`Favorite Image URL: ${favorite.image.url}`); // Log the favorite image URL to the console
+      console.log(`Favorite Image URL: ${favorite.image.url} `); // Log the favorite image URL to the console
 
       const favButton = template.querySelector(".favourite-button");
       favButton.setAttribute("data-img-id", favorite.image.id);

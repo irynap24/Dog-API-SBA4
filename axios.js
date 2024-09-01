@@ -3,7 +3,7 @@ import axios from "axios";
 // Set default base URL and headers for Axios
 axios.defaults.baseURL = "https://api.thedogapi.com/v1/";
 axios.defaults.headers.common["x-api-key"] =
-  "live_vrEwq0Gggg38Ji0OPKDy2Dlwi4WSx4lIyGXCkSsTv4KbWqBxqpL6QdkGfQ3zuC59"; // Replace with your actual API key
+  "live_rVj2pMaHsJtmWA93AAhGZi9h3JmR5eqe7E8srROIImIvS0UkJj23V3oy1b38qnQs"; // Replace with your actual API key
 
 // Function to show the progress bar
 function showProgressBar() {
@@ -63,7 +63,7 @@ axios.interceptors.response.use(
 // Function to get breeds from the API
 export async function getBreeds() {
   try {
-    const response = await axios.get("breeds");
+    const response = await axios.get("https://api.thedogapi.com/v1/breeds");
     return response.data;
   } catch (error) {
     console.error("Error fetching breeds:", error);
