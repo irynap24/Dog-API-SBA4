@@ -172,7 +172,7 @@ body {
   top: 10px;
   right: 10px;
   font-size: 24px;
-  color: #ccc; /* Default grey color */
+
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -201,13 +201,16 @@ body {
   top: 10px;
   right: 10px;
   cursor: pointer;
-  color: #fff;
+  color: pink;
   width: 24px;
   height: 24px;
   fill: currentColor;
-  transition: fill 0.3s ease;
+  transition: color 0.3s ease;
 }
-
+.favourite-button:hover {
+  transform: scale(1.8);
+  color: #e74c3c;
+}
 /* Card image wrapper for consistent aspect ratio */
 .img-wrapper {
   position: relative;
