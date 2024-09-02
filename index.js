@@ -1,10 +1,12 @@
 import * as Carousel from "./Carousel.js";
 import * as Api from "./axios.js"; // Import the functions from axios.js
-
 const breedSelect = document.getElementById("breedSelect");
 const infoDump = document.getElementById("infoDump");
 const progressBar = document.getElementById("progressBar");
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
+
+// A simple state to store favorite images
+let favorites = [];
 
 // Function to load breeds into the select element
 async function initialLoad() {
@@ -46,13 +48,14 @@ async function selectNewBreed() {
       const img = template.querySelector("img");
       img.src = image.url || "https://via.placeholder.com/400"; // Use placeholder if URL is missing
 
-      console.log(`Image URL: ${image.url}`); // Log the image URL to the console
-
       const favButton = template.querySelector(".favourite-button");
       favButton.setAttribute("data-img-id", image.id);
+      updateHeartColor(favButton, image.id); // Update heart color based on favorite status
+
       favButton.addEventListener("click", async () => {
         await Api.toggleFavorite(image.id); // Toggle favorite status
-        updateFavorites(); // Refresh favorites
+        toggleFavoriteStatus(image.id);
+        updateHeartColor(favButton, image.id);
       });
 
       carouselInner.appendChild(template);
@@ -68,22 +71,43 @@ async function selectNewBreed() {
     carousel.cycle();
 
     // Fetch and display breed information
-    // <p><strong>About:</strong> ${breedInfo.description || "No description available"}</p>
     infoDump.innerHTML = `
       <div class="row">
         <div class="col-md-12">
           <h3>${breedInfo.name || "Unknown Breed"}</h3>
-
-          <p><strong>Temperament:</strong> ${breedInfo.temperament || "No temperament information available"}</p>
-          <p><strong>Weight & Height:</strong> ${breedInfo.weight.imperial}lbs, ${breedInfo.height.imperial}</p>
-          <p><strong>Origin:</strong> ${breedInfo.origin || "No origin information available"}</p>
-          <p><strong>Life Span:</strong> ${breedInfo.life_span || "No life span information available"}</p>
-          <p><strong>Bred For:</strong> ${breedInfo.bred_for || "No info available"}</p >
-        </div >
-      </div >
-      `;
+          <p><strong>Temperament:</strong> ${breedInfo.temperament || "No temperament information available"
+      }</p>
+          <p><strong>Weight & Height:</strong> ${breedInfo.weight.imperial
+      }lbs, ${breedInfo.height.imperial} inches tall</p>
+          <p><strong>Origin:</strong> ${breedInfo.origin || "No origin information available"
+      }</p>
+          <p><strong>Life Span:</strong> ${breedInfo.life_span || "No life span information available"
+      }</p>
+          <p><strong>Bred For:</strong> ${breedInfo.bred_for || "No info available"
+      }</p>
+        </div>
+      </div>
+    `;
   } catch (error) {
     console.error("Error fetching breed details:", error);
+  }
+}
+
+// Toggle favorite status in the local state
+function toggleFavoriteStatus(imageId) {
+  if (favorites.includes(imageId)) {
+    favorites = favorites.filter((id) => id !== imageId);
+  } else {
+    favorites.push(imageId);
+  }
+}
+
+// Update heart icon color based on favorite status
+function updateHeartColor(button, imageId) {
+  if (favorites.includes(imageId)) {
+    button.querySelector("svg").style.fill = "red";
+  } else {
+    button.querySelector("svg").style.fill = "currentColor";
   }
 }
 
@@ -91,8 +115,6 @@ async function selectNewBreed() {
 async function updateFavorites() {
   try {
     const favorites = await Api.getFavorites();
-    console.log('Favorites response:', favorites); // Log the response
-
     const carouselInner = document.getElementById("carouselInner");
     carouselInner.innerHTML = "";
 
@@ -103,13 +125,14 @@ async function updateFavorites() {
       const img = template.querySelector("img");
       img.src = favorite.image.url || "https://via.placeholder.com/400"; // Use placeholder if URL is missing
 
-      console.log(`Favorite Image URL: ${favorite.image.url}`); // Log the favorite image URL to the console
-
       const favButton = template.querySelector(".favourite-button");
       favButton.setAttribute("data-img-id", favorite.image.id);
+      updateHeartColor(favButton, favorite.image.id); // Update heart color based on favorite status
+
       favButton.addEventListener("click", async () => {
         await Api.toggleFavorite(favorite.image.id); // Toggle favorite status
-        updateFavorites(); // Refresh favorites
+        toggleFavoriteStatus(favorite.image.id);
+        updateHeartColor(favButton, favorite.image.id);
       });
 
       carouselInner.appendChild(template);
@@ -119,12 +142,141 @@ async function updateFavorites() {
   }
 }
 
-
 // Add event listener for breed selection change
 breedSelect.addEventListener("change", selectNewBreed);
 
 // Add event listener for get favorites button
 getFavouritesBtn.addEventListener("click", updateFavorites);
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Bootstrap tooltips
+  const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  tooltips.forEach((tooltip) => {
+    new bootstrap.Tooltip(tooltip);
+  });
+});
+
 
 // Initial load of breeds
 initialLoad();
+
+
+const breedSearch = document.getElementById("breedSearch");
+const breedSuggestions = document.getElementById("breedSuggestions");
+
+// Store all breeds for searching
+let allBreeds = [];
+
+// Function to display breed suggestions
+function displaySuggestions(breeds) {
+  breedSuggestions.innerHTML = breeds
+    .map(breed => `
+      <a href="#" class="list-group-item list-group-item-action suggestion-item" data-breed-id="${breed.id}">
+        ${breed.name}
+      </a>
+    `)
+    .join("");
+}
+
+// Fetch breeds and initialize search functionality
+async function initializeSearch() {
+  try {
+    allBreeds = await Api.getBreeds();
+    breedSearch.addEventListener("input", handleSearch);
+    breedSuggestions.addEventListener("click", handleSuggestionClick);
+  } catch (error) {
+    console.error("Error loading breeds:", error);
+  }
+}
+
+// Handle search input
+function handleSearch(event) {
+  const query = event.target.value.toLowerCase();
+  const filteredBreeds = allBreeds.filter(breed =>
+    breed.name.toLowerCase().includes(query)
+  );
+  displaySuggestions(filteredBreeds);
+}
+
+// Handle suggestion click
+function handleSuggestionClick(event) {
+  const target = event.target.closest(".suggestion-item");
+  if (target) {
+    const breedId = target.getAttribute("data-breed-id");
+    breedSearch.value = target.textContent; // Set the search input value to the selected breed name
+    breedSuggestions.innerHTML = ""; // Clear suggestions
+    selectBreed(breedId); // Fetch and display selected breed
+  }
+}
+
+// Function to select and display a breed
+async function selectBreed(breedId) {
+  try {
+    const [images, breedInfo] = await Promise.all([
+      Api.getBreedImages(breedId),
+      Api.getBreedInfo(breedId),
+    ]);
+
+    // Update carousel and info section as needed
+    updateCarousel(images);
+    displayBreedInfo(breedInfo);
+  } catch (error) {
+    console.error("Error selecting breed:", error);
+  }
+}
+
+// Initialize search functionality
+initializeSearch();
+// Update carousel with new images
+function updateCarousel(images) {
+  const carouselInner = document.getElementById("carouselInner");
+  carouselInner.innerHTML = "";
+
+  images.forEach(image => {
+    const template = document
+      .getElementById("carouselItemTemplate")
+      .content.cloneNode(true);
+    const img = template.querySelector("img");
+    img.src = image.url || "https://via.placeholder.com/400";
+    carouselInner.appendChild(template);
+  });
+
+  // Initialize or restart the carousel
+  const carousel = new bootstrap.Carousel(
+    document.getElementById("carouselControls"),
+    {
+      interval: 2000,
+    }
+  );
+  carousel.cycle();
+}
+
+// Display breed information
+function displayBreedInfo(breedInfo) {
+  const infoDump = document.getElementById("infoDump");
+  infoDump.innerHTML = `
+    <div class="info-section">
+      <h3 class="info-title">Breed Name</h3>
+      <p class="info-content">${breedInfo.name || "Unknown Breed"}</p>
+    </div>
+    <div class="info-section">
+      <h3 class="info-title">Temperament</h3>
+      <p class="info-content">${breedInfo.temperament || "No temperament information available"}</p>
+    </div>
+    <div class="info-section">
+      <h3 class="info-title">Weight & Height:</h3>
+      <p class="info-content">${breedInfo.weight?.imperial || "No weight information available"}lbs, ${breedInfo.height?.imperial || "No height information available"} inches tall</p>
+    </div>
+    <div class="info-section">
+      <h3 class="info-title">Origin:</h3>
+      <p class="info-content">${breedInfo.origin || "No origin information available"}</p>
+    </div>
+    <div class="info-section">
+      <h3 class="info-title">Life Span:</h3>
+      <p class="info-content">${breedInfo.life_span || "No life span information available"}</p>
+    </div>
+    <div class="info-section">
+      <h3 class="info-title">Bred For:</h3>
+      <p class="info-content">${breedInfo.bred_for || "No info available"}</p>
+    </div>
+  `;
+}

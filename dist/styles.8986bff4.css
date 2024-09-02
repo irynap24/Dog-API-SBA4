@@ -1,6 +1,6 @@
 body {
   height: 100%;
-  background-color: lightgray;
+  background-color: #30343f;
 }
 
 .progress-bar-top {
@@ -9,7 +9,7 @@ body {
   left: 0;
   width: 0%;
   height: 15px;
-  background-color: green;
+  background-color: #30343f;
   border-bottom: 1px solid black;
   transition: width 0.4s ease;
 }
@@ -24,14 +24,6 @@ body {
   color: lightpink;
   cursor: pointer;
   transition: all ease 0.2s;
-}
-
-.favourite-button:hover {
-  color: red;
-  width: 36px;
-  height: 36px;
-  top: 7px;
-  right: 12px;
 }
 
 .carousel-inner {
@@ -81,6 +73,228 @@ body {
   .card .img-wrapper {
     height: 17em;
   }
+}
+header {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #f5f5f5;
+  margin-top: 10px;
+}
+button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+.dog-card {
+  display: inline-block;
+  margin: 15px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: white;
+}
+
+.dog-card img {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+}
+
+.heart-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #e74c3c;
+  cursor: pointer;
+}
+.info-section {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 20px;
+}
+
+.info-section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.info-section p {
+  margin: 5px 0;
+}
+
+.info-section b {
+  font-weight: bold;
+}
+body {
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.breed-selection,
+.dog-images,
+.info-section {
+  width: 100%;
+  max-width: 800px;
+}
+.heart-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #ccc; /* Default grey color */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.heart-icon.active {
+  color: #e74c3c; /* Red color when active */
+}
+/* General styling */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.progress-bar-top {
+  height: 4px;
+  background-color: #007bff;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Styling the favorite heart button */
+.favourite-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: fill 0.3s ease;
+}
+
+/* Card image wrapper for consistent aspect ratio */
+.img-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: auto;
+}
+
+/* Carousel item styling */
+.carousel-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.carousel-inner .carousel-item {
+  max-height: 500px;
+}
+
+.card {
+  position: relative;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure the carousel fits well */
+.carousel {
+  margin-bottom: 50px;
+}
+
+#infoDump {
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+#breedSelect {
+  display: none;
+}
+.search-container {
+  position: relative;
+}
+
+#breedSuggestions {
+  position: absolute;
+  top: 100%; /* Position suggestions below the input */
+  left: 0;
+  z-index: 1000; /* Ensure suggestions appear above other content */
+}
+
+.suggestion-item {
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f1f1f1;
+}
+
+.suggestion-item.active {
+  background-color: #e9ecef;
+}
+#getFavouritesBtn {
+  background-color: transparent;
+  border: none;
+  margin-left: 0; /* Align to the left */
+  margin-right: auto; /* Pushes the button to the left side */
+  display: block; /* Ensure the button is treated as a block-level element */
+}
+.button-container {
+  display: flex;
+  justify-content: flex-start; /* Align children (button) to the left */
+}
+
+#getFavouritesBtn {
+  margin: 0; /* Remove default margins */
+}
+.form-control {
+  background-color: #78c49186;
+  border-radius: 8px;
+  width: 45rem;
+}
+#breedSuggestions {
+  position: relative;
 }
 
 
