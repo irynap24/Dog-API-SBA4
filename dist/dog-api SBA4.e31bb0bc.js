@@ -12505,7 +12505,7 @@ var getFavouritesBtn = document.getElementById("getFavouritesBtn");
 var breedSearch = document.getElementById("breedSearch");
 var breedSuggestions = document.getElementById("breedSuggestions");
 
-// A simple state to store favorite images
+// Empty array to store favorite images
 var favorites = [];
 
 // Function to load breeds into the select element
@@ -12545,7 +12545,7 @@ function _initialLoad() {
 }
 function selectNewBreed() {
   return _selectNewBreed.apply(this, arguments);
-} // Toggle favorite status in the local state
+} // Toggle favorite/unfavorite status
 function _selectNewBreed() {
   _selectNewBreed = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
     var breedId, _yield$Promise$all, _yield$Promise$all2, images, breedInfo, carouselInner, carousel;

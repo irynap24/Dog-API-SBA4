@@ -4,9 +4,9 @@ This project is a web application that allows users to view and favourite images
 It uses a combination of HTML, CSS, JavaScript, and Axios for API interactions, with Bootstrap for styling and a carousel component.
 
 Features
-Breed Selection: Choose a cat breed from a dropdown menu to view a carousel of images for that breed.
+Breed Selection: Choose a dog breed from a dropdown menu to view a carousel of images for that breed.
 Breed Search Bar: Search for a specific breed, a dropdown list of suggestions will appear.
-Carousel: Display images in a responsive Bootstrap carousel with navigation controls.
-Favourites: Click the heart icon on an image to add an image to the favorites section.
-Clicking on the heart(to favorite) will automatically take you to the favorites list to show the image you favorited.
+Carousel: Display images in a responsive Bootstrap carousel.
+Favorites: Click the heart icon on an image to add an image to the favorites section.
+Heart Icon: Changes color to red when clicked to visually indicate that image was saved to the favorites.
 

@@ -8,7 +8,7 @@ const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 const breedSearch = document.getElementById("breedSearch");
 const breedSuggestions = document.getElementById("breedSuggestions");
 
-// A simple state to store favorite images
+// Empty array to store favorite images
 let favorites = [];
 
 // Function to load breeds into the select element
@@ -32,7 +32,7 @@ async function selectNewBreed() {
   if (!breedId) return; // Exit if no breed is selected
 
   try {
-    // Fetch images and breed information in parallel
+    // Fetch images and breed information
     const [images, breedInfo] = await Promise.all([
       Api.getBreedImages(breedId),
       Api.getBreedInfo(breedId),
@@ -91,7 +91,7 @@ async function selectNewBreed() {
   }
 }
 
-// Toggle favorite status in the local state
+// Toggle favorite/unfavorite status
 function toggleFavoriteStatus(imageId) {
   if (favorites.includes(imageId)) {
     favorites = favorites.filter((id) => id !== imageId);
