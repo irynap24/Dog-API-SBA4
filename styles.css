@@ -28,6 +28,8 @@ body {
 
 .carousel-inner {
   padding: 1em;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card {
@@ -252,7 +254,7 @@ body {
 }
 
 #breedSelect {
-  display: none;
+  /* display: none; */
 }
 .search-container {
   position: relative;

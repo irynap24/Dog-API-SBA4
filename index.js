@@ -1,9 +1,12 @@
 import * as Carousel from "./Carousel.js";
 import * as Api from "./axios.js"; // Import the functions from axios.js
+
 const breedSelect = document.getElementById("breedSelect");
 const infoDump = document.getElementById("infoDump");
 const progressBar = document.getElementById("progressBar");
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
+const breedSearch = document.getElementById("breedSearch");
+const breedSuggestions = document.getElementById("breedSuggestions");
 
 // A simple state to store favorite images
 let favorites = [];
@@ -75,16 +78,11 @@ async function selectNewBreed() {
       <div class="row">
         <div class="col-md-12">
           <h3>${breedInfo.name || "Unknown Breed"}</h3>
-          <p><strong>Temperament:</strong> ${breedInfo.temperament || "No temperament information available"
-      }</p>
-          <p><strong>Weight & Height:</strong> ${breedInfo.weight.imperial
-      }lbs, ${breedInfo.height.imperial} inches tall</p>
-          <p><strong>Origin:</strong> ${breedInfo.origin || "No origin information available"
-      }</p>
-          <p><strong>Life Span:</strong> ${breedInfo.life_span || "No life span information available"
-      }</p>
-          <p><strong>Bred For:</strong> ${breedInfo.bred_for || "No info available"
-      }</p>
+          <p><strong>Temperament:</strong> ${breedInfo.temperament || "No temperament information available"}</p>
+          <p><strong>Weight & Height:</strong> ${breedInfo.weight.imperial || "No weight information available"} lbs, ${breedInfo.height.imperial || "No height information available"} inches tall</p>
+          <p><strong>Origin:</strong> ${breedInfo.origin || "No origin information available"}</p>
+          <p><strong>Life Span:</strong> ${breedInfo.life_span || "No life span information available"}</p>
+          <p><strong>Bred For:</strong> ${breedInfo.bred_for || "No info available"}</p>
         </div>
       </div>
     `;
@@ -114,11 +112,13 @@ function updateHeartColor(button, imageId) {
 // Event handler for fetching favorite images
 async function updateFavorites() {
   try {
-    const favorites = await Api.getFavorites();
+    const favoritesData = await Api.getFavorites();
+    favorites = favoritesData.map(fav => fav.image_id); // Update local favorites state
+
     const carouselInner = document.getElementById("carouselInner");
     carouselInner.innerHTML = "";
 
-    favorites.forEach((favorite) => {
+    favoritesData.forEach((favorite) => {
       const template = document
         .getElementById("carouselItemTemplate")
         .content.cloneNode(true);
@@ -142,10 +142,8 @@ async function updateFavorites() {
   }
 }
 
-// Add event listener for breed selection change
+// Event listeners
 breedSelect.addEventListener("change", selectNewBreed);
-
-// Add event listener for get favorites button
 getFavouritesBtn.addEventListener("click", updateFavorites);
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Bootstrap tooltips
@@ -153,15 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
   tooltips.forEach((tooltip) => {
     new bootstrap.Tooltip(tooltip);
   });
+  // Initial load of breeds
+  initialLoad();
 });
-
-
-// Initial load of breeds
-initialLoad();
-
-
-const breedSearch = document.getElementById("breedSearch");
-const breedSuggestions = document.getElementById("breedSuggestions");
 
 // Store all breeds for searching
 let allBreeds = [];
@@ -226,6 +218,7 @@ async function selectBreed(breedId) {
 
 // Initialize search functionality
 initializeSearch();
+
 // Update carousel with new images
 function updateCarousel(images) {
   const carouselInner = document.getElementById("carouselInner");
@@ -252,7 +245,6 @@ function updateCarousel(images) {
 
 // Display breed information
 function displayBreedInfo(breedInfo) {
-  const infoDump = document.getElementById("infoDump");
   infoDump.innerHTML = `
     <div class="info-section">
       <h3 class="info-title">Breed Name</h3>
@@ -264,7 +256,7 @@ function displayBreedInfo(breedInfo) {
     </div>
     <div class="info-section">
       <h3 class="info-title">Weight & Height:</h3>
-      <p class="info-content">${breedInfo.weight?.imperial || "No weight information available"}lbs, ${breedInfo.height?.imperial || "No height information available"} inches tall</p>
+      <p class="info-content">${breedInfo.weight?.imperial || "No weight information available"} lbs ${breedInfo.height?.imperial || "No height information available"} inches tall</p>
     </div>
     <div class="info-section">
       <h3 class="info-title">Origin:</h3>

@@ -12497,10 +12497,13 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // Import the functions from axios.js
+
 var breedSelect = document.getElementById("breedSelect");
 var infoDump = document.getElementById("infoDump");
 var progressBar = document.getElementById("progressBar");
 var getFavouritesBtn = document.getElementById("getFavouritesBtn");
+var breedSearch = document.getElementById("breedSearch");
+var breedSuggestions = document.getElementById("breedSuggestions");
 
 // A simple state to store favorite images
 var favorites = [];
@@ -12605,7 +12608,7 @@ function _selectNewBreed() {
           carousel.cycle();
 
           // Fetch and display breed information
-          infoDump.innerHTML = "\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h3>".concat(breedInfo.name || "Unknown Breed", "</h3>\n          <p><strong>Temperament:</strong> ").concat(breedInfo.temperament || "No temperament information available", "</p>\n          <p><strong>Weight & Height:</strong> ").concat(breedInfo.weight.imperial, "lbs, ").concat(breedInfo.height.imperial, " inches tall</p>\n          <p><strong>Origin:</strong> ").concat(breedInfo.origin || "No origin information available", "</p>\n          <p><strong>Life Span:</strong> ").concat(breedInfo.life_span || "No life span information available", "</p>\n          <p><strong>Bred For:</strong> ").concat(breedInfo.bred_for || "No info available", "</p>\n        </div>\n      </div>\n    ");
+          infoDump.innerHTML = "\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h3>".concat(breedInfo.name || "Unknown Breed", "</h3>\n          <p><strong>Temperament:</strong> ").concat(breedInfo.temperament || "No temperament information available", "</p>\n          <p><strong>Weight & Height:</strong> ").concat(breedInfo.weight.imperial || "No weight information available", " lbs, ").concat(breedInfo.height.imperial || "No height information available", " inches tall</p>\n          <p><strong>Origin:</strong> ").concat(breedInfo.origin || "No origin information available", "</p>\n          <p><strong>Life Span:</strong> ").concat(breedInfo.life_span || "No life span information available", "</p>\n          <p><strong>Bred For:</strong> ").concat(breedInfo.bred_for || "No info available", "</p>\n        </div>\n      </div>\n    ");
           _context3.next = 22;
           break;
         case 19:
@@ -12642,10 +12645,10 @@ function updateHeartColor(button, imageId) {
 // Event handler for fetching favorite images
 function updateFavorites() {
   return _updateFavorites.apply(this, arguments);
-} // Add event listener for breed selection change
+} // Event listeners
 function _updateFavorites() {
   _updateFavorites = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-    var _favorites, carouselInner;
+    var favoritesData, carouselInner;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
@@ -12653,10 +12656,13 @@ function _updateFavorites() {
           _context5.next = 3;
           return Api.getFavorites();
         case 3:
-          _favorites = _context5.sent;
+          favoritesData = _context5.sent;
+          favorites = favoritesData.map(function (fav) {
+            return fav.image_id;
+          }); // Update local favorites state
           carouselInner = document.getElementById("carouselInner");
           carouselInner.innerHTML = "";
-          _favorites.forEach(function (favorite) {
+          favoritesData.forEach(function (favorite) {
             var template = document.getElementById("carouselItemTemplate").content.cloneNode(true);
             var img = template.querySelector("img");
             img.src = favorite.image.url || "https://via.placeholder.com/400"; // Use placeholder if URL is missing
@@ -12683,23 +12689,21 @@ function _updateFavorites() {
             })));
             carouselInner.appendChild(template);
           });
-          _context5.next = 12;
+          _context5.next = 13;
           break;
-        case 9:
-          _context5.prev = 9;
+        case 10:
+          _context5.prev = 10;
           _context5.t0 = _context5["catch"](0);
           console.error("Error fetching favorites:", _context5.t0);
-        case 12:
+        case 13:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[0, 9]]);
+    }, _callee5, null, [[0, 10]]);
   }));
   return _updateFavorites.apply(this, arguments);
 }
 breedSelect.addEventListener("change", selectNewBreed);
-
-// Add event listener for get favorites button
 getFavouritesBtn.addEventListener("click", updateFavorites);
 document.addEventListener('DOMContentLoaded', function () {
   // Initialize Bootstrap tooltips
@@ -12707,12 +12711,9 @@ document.addEventListener('DOMContentLoaded', function () {
   tooltips.forEach(function (tooltip) {
     new bootstrap.Tooltip(tooltip);
   });
+  // Initial load of breeds
+  initialLoad();
 });
-
-// Initial load of breeds
-initialLoad();
-var breedSearch = document.getElementById("breedSearch");
-var breedSuggestions = document.getElementById("breedSuggestions");
 
 // Store all breeds for searching
 var allBreeds = [];
@@ -12809,6 +12810,7 @@ function _selectBreed() {
   return _selectBreed.apply(this, arguments);
 }
 initializeSearch();
+
 // Update carousel with new images
 function updateCarousel(images) {
   var carouselInner = document.getElementById("carouselInner");
@@ -12830,8 +12832,7 @@ function updateCarousel(images) {
 // Display breed information
 function displayBreedInfo(breedInfo) {
   var _breedInfo$weight, _breedInfo$height;
-  var infoDump = document.getElementById("infoDump");
-  infoDump.innerHTML = "\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Breed Name</h3>\n      <p class=\"info-content\">".concat(breedInfo.name || "Unknown Breed", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Temperament</h3>\n      <p class=\"info-content\">").concat(breedInfo.temperament || "No temperament information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Weight & Height:</h3>\n      <p class=\"info-content\">").concat(((_breedInfo$weight = breedInfo.weight) === null || _breedInfo$weight === void 0 ? void 0 : _breedInfo$weight.imperial) || "No weight information available", "lbs, ").concat(((_breedInfo$height = breedInfo.height) === null || _breedInfo$height === void 0 ? void 0 : _breedInfo$height.imperial) || "No height information available", " inches tall</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Origin:</h3>\n      <p class=\"info-content\">").concat(breedInfo.origin || "No origin information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Life Span:</h3>\n      <p class=\"info-content\">").concat(breedInfo.life_span || "No life span information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Bred For:</h3>\n      <p class=\"info-content\">").concat(breedInfo.bred_for || "No info available", "</p>\n    </div>\n  ");
+  infoDump.innerHTML = "\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Breed Name</h3>\n      <p class=\"info-content\">".concat(breedInfo.name || "Unknown Breed", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Temperament</h3>\n      <p class=\"info-content\">").concat(breedInfo.temperament || "No temperament information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Weight & Height:</h3>\n      <p class=\"info-content\">").concat(((_breedInfo$weight = breedInfo.weight) === null || _breedInfo$weight === void 0 ? void 0 : _breedInfo$weight.imperial) || "No weight information available", " lbs ").concat(((_breedInfo$height = breedInfo.height) === null || _breedInfo$height === void 0 ? void 0 : _breedInfo$height.imperial) || "No height information available", " inches tall</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Origin:</h3>\n      <p class=\"info-content\">").concat(breedInfo.origin || "No origin information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Life Span:</h3>\n      <p class=\"info-content\">").concat(breedInfo.life_span || "No life span information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Bred For:</h3>\n      <p class=\"info-content\">").concat(breedInfo.bred_for || "No info available", "</p>\n    </div>\n  ");
 }
 },{"./Carousel.js":"Carousel.js","./axios.js":"axios.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
