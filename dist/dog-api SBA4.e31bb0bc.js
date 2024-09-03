@@ -12513,33 +12513,33 @@ function initialLoad() {
   return _initialLoad.apply(this, arguments);
 } // Event handler for breed selection changes
 function _initialLoad() {
-  _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+  _initialLoad = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
     var breeds;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context.prev = 0;
-          _context.next = 3;
+          _context2.prev = 0;
+          _context2.next = 3;
           return Api.getBreeds();
         case 3:
-          breeds = _context.sent;
+          breeds = _context2.sent;
           breedSelect.innerHTML = breeds.map(function (breed) {
             return "<option value=\"".concat(breed.id, "\">").concat(breed.name, "</option>");
           }).join("");
 
           // Load initial carousel items
           selectNewBreed();
-          _context.next = 11;
+          _context2.next = 11;
           break;
         case 8:
-          _context.prev = 8;
-          _context.t0 = _context["catch"](0);
-          console.error("Error loading breeds:", _context.t0);
+          _context2.prev = 8;
+          _context2.t0 = _context2["catch"](0);
+          console.error("Error loading breeds:", _context2.t0);
         case 11:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee2, null, [[0, 8]]);
   }));
   return _initialLoad.apply(this, arguments);
 }
@@ -12547,23 +12547,23 @@ function selectNewBreed() {
   return _selectNewBreed.apply(this, arguments);
 } // Toggle favorite status in the local state
 function _selectNewBreed() {
-  _selectNewBreed = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+  _selectNewBreed = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
     var breedId, _yield$Promise$all, _yield$Promise$all2, images, breedInfo, carouselInner, carousel;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
         case 0:
           breedId = breedSelect.value;
           if (breedId) {
-            _context3.next = 3;
+            _context4.next = 3;
             break;
           }
-          return _context3.abrupt("return");
+          return _context4.abrupt("return");
         case 3:
-          _context3.prev = 3;
-          _context3.next = 6;
+          _context4.prev = 3;
+          _context4.next = 6;
           return Promise.all([Api.getBreedImages(breedId), Api.getBreedInfo(breedId)]);
         case 6:
-          _yield$Promise$all = _context3.sent;
+          _yield$Promise$all = _context4.sent;
           _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
           images = _yield$Promise$all2[0];
           breedInfo = _yield$Promise$all2[1];
@@ -12582,11 +12582,11 @@ function _selectNewBreed() {
             favButton.setAttribute("data-img-id", image.id);
             updateHeartColor(favButton, image.id); // Update heart color based on favorite status
 
-            favButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-              return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-                while (1) switch (_context2.prev = _context2.next) {
+            favButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+              return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+                while (1) switch (_context3.prev = _context3.next) {
                   case 0:
-                    _context2.next = 2;
+                    _context3.next = 2;
                     return Api.toggleFavorite(image.id);
                   case 2:
                     // Toggle favorite status
@@ -12594,9 +12594,9 @@ function _selectNewBreed() {
                     updateHeartColor(favButton, image.id);
                   case 4:
                   case "end":
-                    return _context2.stop();
+                    return _context3.stop();
                 }
-              }, _callee2);
+              }, _callee3);
             })));
             carouselInner.appendChild(template);
           });
@@ -12609,17 +12609,17 @@ function _selectNewBreed() {
 
           // Fetch and display breed information
           infoDump.innerHTML = "\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h3>".concat(breedInfo.name || "Unknown Breed", "</h3>\n          <p><strong>Temperament:</strong> ").concat(breedInfo.temperament || "No temperament information available", "</p>\n          <p><strong>Weight & Height:</strong> ").concat(breedInfo.weight.imperial || "No weight information available", " lbs, ").concat(breedInfo.height.imperial || "No height information available", " inches tall</p>\n          <p><strong>Origin:</strong> ").concat(breedInfo.origin || "No origin information available", "</p>\n          <p><strong>Life Span:</strong> ").concat(breedInfo.life_span || "No life span information available", "</p>\n          <p><strong>Bred For:</strong> ").concat(breedInfo.bred_for || "No info available", "</p>\n        </div>\n      </div>\n    ");
-          _context3.next = 22;
+          _context4.next = 22;
           break;
         case 19:
-          _context3.prev = 19;
-          _context3.t0 = _context3["catch"](3);
-          console.error("Error fetching breed details:", _context3.t0);
+          _context4.prev = 19;
+          _context4.t0 = _context4["catch"](3);
+          console.error("Error fetching breed details:", _context4.t0);
         case 22:
         case "end":
-          return _context3.stop();
+          return _context4.stop();
       }
-    }, _callee3, null, [[3, 19]]);
+    }, _callee4, null, [[3, 19]]);
   }));
   return _selectNewBreed.apply(this, arguments);
 }
@@ -12647,16 +12647,16 @@ function updateFavorites() {
   return _updateFavorites.apply(this, arguments);
 } // Event listeners
 function _updateFavorites() {
-  _updateFavorites = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+  _updateFavorites = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
     var favoritesData, carouselInner;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
-          _context5.prev = 0;
-          _context5.next = 3;
+          _context6.prev = 0;
+          _context6.next = 3;
           return Api.getFavorites();
         case 3:
-          favoritesData = _context5.sent;
+          favoritesData = _context6.sent;
           favorites = favoritesData.map(function (fav) {
             return fav.image_id;
           }); // Update local favorites state
@@ -12671,11 +12671,11 @@ function _updateFavorites() {
             favButton.setAttribute("data-img-id", favorite.image.id);
             updateHeartColor(favButton, favorite.image.id); // Update heart color based on favorite status
 
-            favButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-              return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-                while (1) switch (_context4.prev = _context4.next) {
+            favButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+              return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+                while (1) switch (_context5.prev = _context5.next) {
                   case 0:
-                    _context4.next = 2;
+                    _context5.next = 2;
                     return Api.toggleFavorite(favorite.image.id);
                   case 2:
                     // Toggle favorite status
@@ -12683,23 +12683,23 @@ function _updateFavorites() {
                     updateHeartColor(favButton, favorite.image.id);
                   case 4:
                   case "end":
-                    return _context4.stop();
+                    return _context5.stop();
                 }
-              }, _callee4);
+              }, _callee5);
             })));
             carouselInner.appendChild(template);
           });
-          _context5.next = 13;
+          _context6.next = 13;
           break;
         case 10:
-          _context5.prev = 10;
-          _context5.t0 = _context5["catch"](0);
-          console.error("Error fetching favorites:", _context5.t0);
+          _context6.prev = 10;
+          _context6.t0 = _context6["catch"](0);
+          console.error("Error fetching favorites:", _context6.t0);
         case 13:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee6, null, [[0, 10]]);
   }));
   return _updateFavorites.apply(this, arguments);
 }
@@ -12730,28 +12730,28 @@ function initializeSearch() {
   return _initializeSearch.apply(this, arguments);
 } // Handle search input
 function _initializeSearch() {
-  _initializeSearch = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
+  _initializeSearch = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
         case 0:
-          _context6.prev = 0;
-          _context6.next = 3;
+          _context7.prev = 0;
+          _context7.next = 3;
           return Api.getBreeds();
         case 3:
-          allBreeds = _context6.sent;
+          allBreeds = _context7.sent;
           breedSearch.addEventListener("input", handleSearch);
           breedSuggestions.addEventListener("click", handleSuggestionClick);
-          _context6.next = 11;
+          _context7.next = 11;
           break;
         case 8:
-          _context6.prev = 8;
-          _context6.t0 = _context6["catch"](0);
-          console.error("Error loading breeds:", _context6.t0);
+          _context7.prev = 8;
+          _context7.t0 = _context7["catch"](0);
+          console.error("Error loading breeds:", _context7.t0);
         case 11:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
-    }, _callee6, null, [[0, 8]]);
+    }, _callee7, null, [[0, 8]]);
   }));
   return _initializeSearch.apply(this, arguments);
 }
@@ -12779,33 +12779,33 @@ function selectBreed(_x) {
   return _selectBreed.apply(this, arguments);
 } // Initialize search functionality
 function _selectBreed() {
-  _selectBreed = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(breedId) {
+  _selectBreed = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(breedId) {
     var _yield$Promise$all3, _yield$Promise$all4, images, breedInfo;
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
         case 0:
-          _context7.prev = 0;
-          _context7.next = 3;
+          _context8.prev = 0;
+          _context8.next = 3;
           return Promise.all([Api.getBreedImages(breedId), Api.getBreedInfo(breedId)]);
         case 3:
-          _yield$Promise$all3 = _context7.sent;
+          _yield$Promise$all3 = _context8.sent;
           _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 2);
           images = _yield$Promise$all4[0];
           breedInfo = _yield$Promise$all4[1];
           // Update carousel and info section as needed
           updateCarousel(images);
           displayBreedInfo(breedInfo);
-          _context7.next = 14;
+          _context8.next = 14;
           break;
         case 11:
-          _context7.prev = 11;
-          _context7.t0 = _context7["catch"](0);
-          console.error("Error selecting breed:", _context7.t0);
+          _context8.prev = 11;
+          _context8.t0 = _context8["catch"](0);
+          console.error("Error selecting breed:", _context8.t0);
         case 14:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
-    }, _callee7, null, [[0, 11]]);
+    }, _callee8, null, [[0, 11]]);
   }));
   return _selectBreed.apply(this, arguments);
 }
@@ -12819,6 +12819,26 @@ function updateCarousel(images) {
     var template = document.getElementById("carouselItemTemplate").content.cloneNode(true);
     var img = template.querySelector("img");
     img.src = image.url || "https://via.placeholder.com/400";
+    var favButton = template.querySelector(".favourite-button");
+    favButton.setAttribute("data-img-id", image.id);
+    updateHeartColor(favButton, image.id); // Ensure heart color is updated
+
+    favButton.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return Api.toggleFavorite(image.id);
+          case 2:
+            // Toggle favorite status
+            toggleFavoriteStatus(image.id);
+            updateHeartColor(favButton, image.id);
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    })));
     carouselInner.appendChild(template);
   });
 
@@ -12832,6 +12852,7 @@ function updateCarousel(images) {
 // Display breed information
 function displayBreedInfo(breedInfo) {
   var _breedInfo$weight, _breedInfo$height;
+  var infoDump = document.getElementById("infoDump");
   infoDump.innerHTML = "\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Breed Name</h3>\n      <p class=\"info-content\">".concat(breedInfo.name || "Unknown Breed", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Temperament</h3>\n      <p class=\"info-content\">").concat(breedInfo.temperament || "No temperament information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Weight & Height:</h3>\n      <p class=\"info-content\">").concat(((_breedInfo$weight = breedInfo.weight) === null || _breedInfo$weight === void 0 ? void 0 : _breedInfo$weight.imperial) || "No weight information available", " lbs ").concat(((_breedInfo$height = breedInfo.height) === null || _breedInfo$height === void 0 ? void 0 : _breedInfo$height.imperial) || "No height information available", " inches tall</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Origin:</h3>\n      <p class=\"info-content\">").concat(breedInfo.origin || "No origin information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Life Span:</h3>\n      <p class=\"info-content\">").concat(breedInfo.life_span || "No life span information available", "</p>\n    </div>\n    <div class=\"info-section\">\n      <h3 class=\"info-title\">Bred For:</h3>\n      <p class=\"info-content\">").concat(breedInfo.bred_for || "No info available", "</p>\n    </div>\n  ");
 }
 },{"./Carousel.js":"Carousel.js","./axios.js":"axios.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

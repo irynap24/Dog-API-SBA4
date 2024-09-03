@@ -230,6 +230,17 @@ function updateCarousel(images) {
       .content.cloneNode(true);
     const img = template.querySelector("img");
     img.src = image.url || "https://via.placeholder.com/400";
+
+    const favButton = template.querySelector(".favourite-button");
+    favButton.setAttribute("data-img-id", image.id);
+    updateHeartColor(favButton, image.id); // Ensure heart color is updated
+
+    favButton.addEventListener("click", async () => {
+      await Api.toggleFavorite(image.id); // Toggle favorite status
+      toggleFavoriteStatus(image.id);
+      updateHeartColor(favButton, image.id);
+    });
+
     carouselInner.appendChild(template);
   });
 
@@ -245,6 +256,7 @@ function updateCarousel(images) {
 
 // Display breed information
 function displayBreedInfo(breedInfo) {
+  const infoDump = document.getElementById("infoDump");
   infoDump.innerHTML = `
     <div class="info-section">
       <h3 class="info-title">Breed Name</h3>
